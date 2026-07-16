@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bina Tani Nusantara — Catatan Kasbon & Operasional</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --bg: #1E0707;
+  --bg-2: #3D0C0C;
+  --line: #E9D6AE;
+  --ink: #2B1208;
+  --ink-soft: #8A6A4E;
+  --gold: #D4A017;
+  --gold-bright: #F0C33C;
+  --gold-bg: #F7E7BC;
+  --white: #FFFDF9;
+
+  --red: #B8121A;
+  --red-dark: #7A0D12;
+  --green: #2E7D32;
+  --green-bg: #E1EFE1;
+
+  --kasbon: #D4A017;
+  --kasbon-bg: #F7E7BC;
+  --pengeluaran: #B8121A;
+  --pengeluaran-bg: #F6DAD5;
+  --tani: #D4A017;
+  --tani-bg: #F7E7BC;
+  --lahan: #9C5B10;
+  --lahan-bg: #F0E0C4;
+  --bayar: #2E7D32;
+  --bayar-bg: #E1EFE1;
+
+  --mitra: #8A2E12;
+  --mitra-bg: #F1DCC9;
+
+  --blok: #5B3A8A;
+  --blok-bg: #E6DDF1;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background: radial-gradient(circle at 20% -10%, var(--bg-2), var(--bg) 65%);
+  color:var(--ink);
+  font-family:'Inter', sans-serif;
+  padding-bottom:60px;
+}
+.wrap{max-width:820px; margin:0 auto; padding:26px 16px 40px;}
+
+/* letterhead */
+.letterhead{
+  background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 55%, #1A0505 100%);
+  color:var(--white);
+  border-radius:12px;
+  padding:22px 20px;
+  margin-bottom:14px;
+  position:relative;
+  overflow:hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+}
+.letterhead::before{
+  content:"";
+  position:absolute; top:0; right:0; bottom:0; width:6px;
+  background:var(--gold-bright);
+}
+.letterhead .eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--gold-bright);
+  opacity:.9;
+}
+.letterhead h1{
+  font-family:'Fraunces', serif;
+  font-size:26px;
+  font-weight:700;
+  margin:4px 0 6px;
+}
+.letterhead p{
+  font-size:12.5px;
+  color:#F0DAC2;
+  margin:0;
+  line-height:1.5;
+  max-width:520px;
+}
+
+/* backup toolbar */
+.toolbar{
+  display:flex;
+  gap:8px;
+  margin-bottom:16px;
+  flex-wrap:wrap;
+}
+.toolbar button, .toolbar label{
+  flex:1;
+  min-width:140px;
+  text-align:center;
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:9px 10px;
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink-soft);
+  cursor:pointer;
+  font-family:'Inter';
+}
+.toolbar button:hover, .toolbar label:hover{border-color:var(--gold); color:var(--gold);}
+.toolbar input[type="file"]{display:none;}
+
+/* section title */
+.section-title{
+  font-family:'Fraunces', serif;
+  font-size:16px;
+  font-weight:600;
+  margin:0 0 12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  justify-content:space-between;
+}
+.section-title .left{display:flex; align-items:center; gap:8px;}
+.section-title .tag{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#8A5E00;
+  border:1px solid var(--gold);
+  background:var(--gold-bg);
+  padding:2px 7px;
+  border-radius:20px;
+  font-weight:600;
+}
+.mini-btn{
+  border:1px solid var(--line);
+  background:var(--white);
+  border-radius:20px;
+  padding:4px 11px;
+  font-size:11px;
+  font-weight:600;
+  color:var(--ink-soft);
+  cursor:pointer;
+  font-family:'Inter';
+}
+.mini-btn:hover{border-color:var(--red); color:var(--red);}
+
+/* kasbon report panel */
+.kasbon-panel{
+  background:var(--kasbon-bg);
+  border:1px solid #E3C87E;
+  border-radius:12px;
+  padding:18px 18px 16px;
+  margin-bottom:16px;
+  box-shadow: 0 6px 18px rgba(60,20,0,.12);
+}
+.kasbon-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:12px;
+}
+.kstat{
+  background:var(--white);
+  border-radius:9px;
+  padding:12px 10px;
+  text-align:center;
+  border:1px solid #ECD9AE;
+}
+.kstat .label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--ink-soft);
+  margin-bottom:5px;
+}
+.kstat .val{
+  font-family:'IBM Plex Mono', monospace;
+  font-weight:600;
+  font-size:14px;
+}
+.kstat.sisa{background: linear-gradient(135deg, var(--red), var(--red-dark)); border-color:var(--red-dark);}
+.kstat.sisa .label{color:#F3D2CE;}
+.kstat.sisa .val{color:var(--white); font-size:15px;}
+.kstat.settled{background: linear-gradient(135deg, #3E9142, var(--green)); border-color:var(--green);}
+.kstat.settled .label{color:#DCEEDC;}
+.kstat.settled .val{color:var(--white);}
+.kasbon-narasi{
+  font-size:12.5px;
+  color:var(--ink);
+  line-height:1.55;
+  background:var(--white);
+  border-radius:8px;
+  padding:10px 12px;
+  border:1px solid #ECD9AE;
+}
+.kasbon-narasi b{color:var(--red);}
+
+.mitra-list{margin-top:10px; display:flex; flex-direction:column; gap:6px;}
+.mitra-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  background:var(--white);
+  border:1px solid #ECD9AE;
+  border-radius:8px;
+  padding:8px 12px;
+}
+.mitra-item .name{font-size:13px; font-weight:600; color:var(--ink);}
+.mitra-item .figures{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--ink-soft); text-align:right;}
+.mitra-item .figures b{color:var(--mitra); font-size:12px;}
+
+/* summary row (kas & hasil) */
+.summary{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-bottom:8px;
+}
+.stamp{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:13px 10px;
+  text-align:center;
+}
+.stamp .label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--ink-soft);
+  margin-bottom:5px;
+}
+.stamp .amount{font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:14px;}
+.stamp.pengeluaran .amount{color:var(--pengeluaran);}
+.stamp.kas .amount{color:var(--ink); font-size:16px;}
+.hasil-split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:18px;
+}
+.stamp.tani .amount{color:var(--tani);}
+.stamp.lahan .amount{color:var(--lahan);}
+.stamp.tani, .stamp.lahan{padding:10px;}
+.stamp .sub-label{font-size:9.5px; color:var(--ink-soft); margin-top:2px;}
+
+/* card */
+.card{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:16px;
+}
+
+/* budget list */
+.budget-list{display:flex; flex-direction:column; gap:8px;}
+.budget-row{
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:9px 11px;
+}
+.budget-row .top{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px;}
+.budget-row .cat-name{font-size:12.5px; font-weight:600; color:var(--ink);}
+.budget-row .realisasi{font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--pengeluaran);}
+.budget-row .anggaran-line{display:flex; align-items:center; gap:6px; font-size:11px; color:var(--ink-soft);}
+.budget-row input.budget-input{
+  width:110px; padding:5px 7px; font-size:11.5px;
+  border:1px solid var(--line); border-radius:6px; font-family:'IBM Plex Mono', monospace;
+  background:var(--white);
+}
+.budget-input-print{display:none;}
+.budget-bar{height:6px; border-radius:4px; background:#EEE3CE; margin-top:6px; overflow:hidden;}
+.budget-bar-fill{height:100%; background:var(--gold);}
+.budget-bar-fill.over{background:var(--red);}
+.budget-row .sisa-text{font-size:10.5px; color:var(--ink-soft); margin-top:4px;}
+.empty-mini{font-size:12px; color:var(--ink-soft); text-align:center; padding:10px;}
+
+/* type toggle 2x2 */
+.type-toggle{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:12px;
+}
+.type-toggle button{
+  padding:11px 6px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--white);
+  font-family:'Inter'; font-weight:600; font-size:12.5px;
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.type-toggle button.active[data-type="kasbon"]{background:var(--kasbon-bg); border-color:var(--kasbon); color:#8A5E00;}
+.type-toggle button.active[data-type="pengeluaran"]{background:var(--pengeluaran-bg); border-color:var(--pengeluaran); color:var(--pengeluaran);}
+.type-toggle button.active[data-type="pemasukan"]{background:var(--tani-bg); border-color:var(--tani); color:#8A5E00;}
+.type-toggle button.active[data-type="pembayaran"]{background:var(--bayar-bg); border-color:var(--bayar); color:var(--bayar);}
+
+.subtype-toggle{
+  display:none;
+  gap:8px;
+  margin-bottom:12px;
+}
+.subtype-toggle.open{display:flex;}
+.subtype-toggle button{
+  flex:1;
+  padding:9px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  background:var(--white);
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.subtype-toggle button.active[data-sub="tani"]{background:var(--tani-bg); border-color:var(--tani); color:#8A5E00;}
+.subtype-toggle button.active[data-sub="lahan"]{background:var(--lahan-bg); border-color:var(--lahan); color:var(--lahan);}
+
+.group-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--mitra);
+  margin:2px 0 6px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.group-label::before{content:""; width:14px; height:1px; background:var(--mitra);}
+.type-toggle.mitra{grid-template-columns:1fr 1fr 1fr; margin-bottom:12px;}
+.type-toggle.mitra button.active{background:var(--mitra-bg); border-color:var(--mitra); color:var(--mitra);}
+
+.edit-banner{
+  display:none;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--gold-bg);
+  border:1px solid var(--gold);
+  border-radius:8px;
+  padding:8px 12px;
+  margin-bottom:12px;
+  font-size:12px;
+  color:#8A5E00;
+  font-weight:600;
+}
+.edit-banner.open{display:flex;}
+.edit-banner button{
+  border:none; background:none; color:var(--red); font-weight:700; cursor:pointer; font-size:12px;
+}
+
+form.entry-form{display:flex; flex-direction:column; gap:10px;}
+.row2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+label{font-size:11px; color:var(--ink-soft); font-weight:600; text-transform:uppercase; letter-spacing:.04em; margin-bottom:4px; display:block;}
+input, select, textarea{
+  width:100%;
+  padding:10px 11px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  font-family:'Inter';
+  font-size:14px;
+  background:var(--white);
+  color:var(--ink);
+}
+textarea{resize:vertical; min-height:44px; font-family:'Inter';}
+input:focus, select:focus, textarea:focus, button:focus-visible{
+  outline:2px solid var(--gold); outline-offset:1px;
+}
+input[type="number"]{font-family:'IBM Plex Mono', monospace;}
+
+.cat-row{display:flex; gap:8px; align-items:flex-end;}
+.cat-row select{flex:1;}
+.icon-btn{
+  border:1px solid var(--line);
+  background:var(--white);
+  border-radius:7px;
+  width:40px; height:41px;
+  font-size:18px;
+  cursor:pointer;
+  color:var(--ink-soft);
+  flex-shrink:0;
+}
+.icon-btn:hover{border-color:var(--gold); color:var(--gold);}
+.new-cat-box{display:none; gap:8px; margin-top:8px;}
+.new-cat-box.open{display:flex;}
+.new-cat-box input{flex:1;}
+.new-cat-box button{
+  border:none; background:var(--ink); color:var(--white);
+  padding:0 14px; border-radius:7px; font-size:13px; font-weight:600; cursor:pointer;
+}
+
+.submit-btn{
+  margin-top:4px;
+  border:none;
+  color:var(--white);
+  padding:12px;
+  border-radius:8px;
+  font-weight:700;
+  font-size:14px;
+  cursor:pointer;
+  background:var(--ink);
+}
+.submit-btn:hover{opacity:.92;}
+
+.search-box{margin-bottom:10px;}
+.search-box input{font-size:13px;}
+.filter-bar{display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;}
+.filter-bar select{width:auto; flex:1; min-width:110px; font-size:12.5px; padding:8px 9px;}
+
+.ledger{border-top:1px solid var(--line);}
+.ledger-row{
+  display:grid;
+  grid-template-columns:50px 1fr auto;
+  gap:10px;
+  padding:12px 4px;
+  border-bottom:1px dashed var(--line);
+  align-items:center;
+  cursor:pointer;
+  border-radius:6px;
+}
+.ledger-row:hover{background:#FBF3E4;}
+.ledger-row .date{font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--ink-soft); line-height:1.3;}
+.badge{
+  display:inline-block;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:9.5px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  padding:2px 7px;
+  border-radius:20px;
+  margin-bottom:4px;
+  margin-right:4px;
+}
+.badge.kasbon{background:var(--kasbon-bg); color:#8A5E00;}
+.badge.pengeluaran{background:var(--pengeluaran-bg); color:var(--pengeluaran);}
+.badge.tani{background:var(--tani-bg); color:#8A5E00;}
+.badge.lahan{background:var(--lahan-bg); color:var(--lahan);}
+.badge.pembayaran{background:var(--bayar-bg); color:var(--bayar);}
+.badge.mitra{background:var(--mitra-bg); color:var(--mitra);}
+.badge.blok{background:var(--blok-bg); color:var(--blok);}
+.ledger-row .mid .note{font-size:13.5px; font-weight:500;}
+.ledger-row .mid .cat{font-size:11px; color:var(--ink-soft); font-family:'IBM Plex Mono', monospace; margin-top:2px;}
+.ledger-row .right{text-align:right;}
+.ledger-row .right .amt{font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:13.5px;}
+.ledger-row .right .amt.plus{color:var(--green);}
+.ledger-row .right .amt.minus{color:var(--pengeluaran);}
+.ledger-row .right .saldo{font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--ink-soft); margin-top:2px;}
+.ledger-row .right .del{background:none; border:none; color:var(--ink-soft); font-size:10.5px; cursor:pointer; margin-top:4px; text-decoration:underline; padding:0;}
+.ledger-row .right .del:hover{color:var(--red);}
+
+.empty-state{text-align:center; padding:34px 10px; color:var(--ink-soft);}
+.empty-state .glyph{font-size:26px; margin-bottom:8px;}
+.empty-state p{font-size:13px; margin:0;}
+
+.toast{
+  position:fixed; bottom:20px; left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--ink); color:var(--white);
+  padding:10px 18px; border-radius:8px; font-size:13px;
+  opacity:0; transition:opacity .2s, transform .2s;
+  pointer-events:none; z-index:10;
+}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+.print-only{display:none;}
+
+@media print{
+  body{background:white !important;}
+  .no-print{display:none !important;}
+  .letterhead{background:white !important; color:var(--ink) !important; box-shadow:none; border:1px solid #ccc;}
+  .letterhead::before{display:none;}
+  .letterhead .eyebrow{color:var(--red) !important;}
+  .letterhead p{color:var(--ink-soft) !important;}
+  .card, .kasbon-panel{box-shadow:none !important; break-inside:avoid;}
+  .ledger-row{cursor:default; break-inside:avoid;}
+  .ledger-row:hover{background:none;}
+  .budget-input{display:none;}
+  .budget-input-print{display:inline-block !important; font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:11.5px;}
+  .print-only{display:block; text-align:center; font-size:11px; color:#666; margin-bottom:14px;}
+}
+
+@media(max-width:460px){
+  .letterhead h1{font-size:21px;}
+  .kasbon-grid{grid-template-columns:1fr; gap:8px;}
+  .summary{grid-template-columns:1fr;}
+  .hasil-split{grid-template-columns:1fr;}
+  .row2{grid-template-columns:1fr;}
+  .toolbar button, .toolbar label{min-width:100%;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="letterhead">
+    <div class="eyebrow">Catatan Kasbon &amp; Operasional Lahan</div>
+    <h1>Bina Tani Nusantara</h1>
+    <p>Pembukaan &amp; pengelolaan lahan pertanian di Kalimantan. Seluruh modal operasional berasal dari kasbon pemilik lahan, dan dibayar kembali dari hasil panen serta penjualan lahan.</p>
+  </div>
+
+  <div class="print-only">Laporan dicetak pada <span id="printDate"></span></div>
+
+  <div class="toolbar no-print">
+    <button type="button" id="btnPrint">🖶 Cetak Laporan</button>
+    <button type="button" id="btnExport">⭳ Unduh Cadangan</button>
+    <label for="importFile">⭱ Pulihkan Cadangan</label>
+    <input type="file" id="importFile" accept="application/json">
+  </div>
+
+  <!-- KASBON PEMILIK LAHAN -->
+  <div class="kasbon-panel">
+    <div class="section-title" style="margin-bottom:10px;">Laporan Kasbon Pemilik Lahan <span class="tag">Modal Masuk</span></div>
+    <div class="kasbon-grid">
+      <div class="kstat">
+        <div class="label">Kasbon Diterima</div>
+        <div class="val" id="totalKasbon">Rp 0</div>
+      </div>
+      <div class="kstat settled">
+        <div class="label">Sudah Dibayar</div>
+        <div class="val" id="totalDibayar">Rp 0</div>
+      </div>
+      <div class="kstat sisa">
+        <div class="label">Sisa Kasbon</div>
+        <div class="val" id="sisaKasbon">Rp 0</div>
+      </div>
+    </div>
+    <div class="kasbon-narasi" id="narasiKasbon">
+      Belum ada kasbon tercatat.
+    </div>
+  </div>
+
+  <!-- KASBON MITRA LAPANGAN -->
+  <div class="kasbon-panel" style="background:var(--mitra-bg); border-color:#D9B27F;">
+    <div class="section-title" style="margin-bottom:10px;">Kasbon Mitra Lapangan <span class="tag" style="color:var(--mitra); border-color:var(--mitra); background:transparent;">Diberikan ke Mitra</span></div>
+    <div class="kasbon-grid">
+      <div class="kstat" style="border-color:#D9B27F;">
+        <div class="label">Diberikan ke Mitra</div>
+        <div class="val" id="totalKasbonMitra">Rp 0</div>
+      </div>
+      <div class="kstat" style="border-color:#D9B27F;">
+        <div class="label">Dipertanggungjawabkan</div>
+        <div class="val" id="totalPertanggungjawabanMitra">Rp 0</div>
+      </div>
+      <div class="kstat sisa">
+        <div class="label">Sisa di Tangan Mitra</div>
+        <div class="val" id="sisaKasbonMitra">Rp 0</div>
+      </div>
+    </div>
+    <div class="kasbon-narasi" id="narasiMitra" style="border-color:#D9B27F;">
+      Belum ada kasbon ke mitra lapangan.
+    </div>
+    <div class="mitra-list" id="mitraList"></div>
+  </div>
+
+  <!-- KAS & HASIL -->
+  <div class="summary">
+    <div class="stamp pengeluaran">
+      <div class="label">Total Pengeluaran</div>
+      <div class="amount" id="totalPengeluaran">Rp 0</div>
+    </div>
+    <div class="stamp kas">
+      <div class="label">Saldo Kas di Tangan</div>
+      <div class="amount" id="saldoKas">Rp 0</div>
+    </div>
+  </div>
+  <div class="hasil-split">
+    <div class="stamp tani">
+      <div class="label">Hasil Pertanian</div>
+      <div class="amount" id="totalTani">Rp 0</div>
+      <div class="sub-label">dari penjualan hasil panen</div>
+    </div>
+    <div class="stamp lahan">
+      <div class="label">Penjualan Lahan</div>
+      <div class="amount" id="totalLahan">Rp 0</div>
+      <div class="sub-label">dari penjualan kavling/blok</div>
+    </div>
+  </div>
+
+  <!-- ANGGARAN & REALISASI PENGELUARAN -->
+  <div class="card">
+    <div class="section-title"><span class="left"><span class="tag">Anggaran</span> Realisasi Pengeluaran per Kategori</span></div>
+    <div class="budget-list" id="budgetList"></div>
+  </div>
+
+  <!-- RINCIAN PER BLOK LAHAN -->
+  <div class="card">
+    <div class="section-title"><span class="left"><span class="tag">Per Blok</span> Rincian Blok/Petak Lahan</span></div>
+    <div class="mitra-list" id="blokList"></div>
+    <div class="empty-mini" id="blokEmpty">Belum ada transaksi yang ditandai dengan blok/petak lahan.</div>
+  </div>
+
+  <!-- FORM -->
+  <div class="card" id="formCard">
+    <div class="section-title"><span class="tag">1</span> Tambah Transaksi</div>
+
+    <div class="edit-banner no-print" id="editBanner">
+      <span>Mengedit transaksi</span>
+      <button type="button" id="cancelEditBtn">Batal</button>
+    </div>
+
+    <form class="entry-form" id="entryForm">
+      <div class="type-toggle" id="typeToggle">
+        <button type="button" data-type="kasbon" class="active">Kasbon Masuk</button>
+        <button type="button" data-type="pengeluaran">Pengeluaran</button>
+        <button type="button" data-type="pemasukan">Pemasukan (Hasil)</button>
+        <button type="button" data-type="pembayaran">Bayar Kasbon</button>
+      </div>
+
+      <div class="subtype-toggle" id="subtypeToggle">
+        <button type="button" data-sub="tani" class="active">Hasil Pertanian</button>
+        <button type="button" data-sub="lahan">Penjualan Lahan</button>
+      </div>
+
+      <div class="group-label">Mitra Lapangan</div>
+      <div class="type-toggle mitra" id="mitraToggle">
+        <button type="button" data-type="kasbonMitra">Kasbon ke Mitra</button>
+        <button type="button" data-type="laporanMitra">Laporan Pemakaian</button>
+        <button type="button" data-type="pengembalianMitra">Pengembalian Sisa</button>
+      </div>
+
+      <div id="mitraNameBlock" style="display:none;">
+        <label for="fMitraName">Nama Mitra</label>
+        <input type="text" id="fMitraName" list="mitraNames" placeholder="Contoh: Pak Herman">
+        <datalist id="mitraNames"></datalist>
+      </div>
+
+      <div id="blokBlock" style="display:none;">
+        <label for="fBlok">Blok / Petak Lahan (opsional)</label>
+        <input type="text" id="fBlok" list="blokNames" placeholder="Contoh: Blok A-1">
+        <datalist id="blokNames"></datalist>
+      </div>
+
+      <div class="row2">
+        <div>
+          <label for="fDate">Tanggal</label>
+          <input type="date" id="fDate" required>
+        </div>
+        <div>
+          <label for="fAmount">Jumlah (Rp)</label>
+          <input type="number" id="fAmount" min="0" step="1" placeholder="0" required>
+        </div>
+      </div>
+
+      <div id="catBlock">
+        <label for="fCat">Kategori</label>
+        <div class="cat-row">
+          <select id="fCat" required></select>
+          <button type="button" class="icon-btn" id="btnNewCat" title="Tambah kategori baru">+</button>
+        </div>
+        <div class="new-cat-box" id="newCatBox">
+          <input type="text" id="newCatInput" placeholder="Nama kategori baru...">
+          <button type="button" id="saveCatBtn">Simpan</button>
+        </div>
+      </div>
+
+      <div>
+        <label for="fNote">Keterangan</label>
+        <textarea id="fNote" placeholder="Contoh: Kasbon tahap 2 untuk pembukaan lahan blok B" required></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">Catat Kasbon Masuk</button>
+    </form>
+  </div>
+
+  <!-- LEDGER -->
+  <div class="card">
+    <div class="section-title"><span class="tag">2</span> Riwayat Transaksi</div>
+    <div class="search-box no-print">
+      <input type="text" id="searchInput" placeholder="Cari keterangan, kategori, mitra, atau blok...">
+    </div>
+    <div class="filter-bar no-print">
+      <select id="filterMonth"></select>
+      <select id="filterMitraName"><option value="semua">Semua mitra</option></select>
+      <select id="filterBlok"><option value="semua">Semua blok</option></select>
+      <select id="filterType">
+        <option value="semua">Semua jenis</option>
+        <option value="kasbon">Kasbon Masuk</option>
+        <option value="pengeluaran">Pengeluaran</option>
+        <option value="pemasukan-tani">Hasil Pertanian</option>
+        <option value="pemasukan-lahan">Penjualan Lahan</option>
+        <option value="pembayaran">Bayar Kasbon</option>
+        <option value="kasbonMitra">Kasbon ke Mitra</option>
+        <option value="laporanMitra">Laporan Pemakaian Mitra</option>
+        <option value="pengembalianMitra">Pengembalian Sisa Mitra</option>
+      </select>
+    </div>
+    <div class="ledger" id="ledgerBody"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORE_ENTRIES = 'binatani:entries';
+const STORE_CATS = 'binatani:categories';
+const STORE_BUDGETS = 'binatani:budgets';
+
+let entries = [];
+let categories = {
+  kasbon: ['Modal Awal Pembukaan Lahan','Kasbon Tahap Operasional','Kasbon Tambahan','Lainnya'],
+  pengeluaran: ['Pembukaan Lahan','Bibit & Benih','Pupuk & Obat','Tenaga Kerja','Sewa Alat Berat','Transportasi & Logistik','Administrasi & Perizinan','Lainnya'],
+  pemasukanTani: ['Panen Sawit','Panen Karet','Panen Padi','Panen Jagung','Hasil Panen Lainnya'],
+  pemasukanLahan: ['Penjualan Kavling','Penjualan Blok Lahan','Lainnya'],
+  laporanMitra: ['Upah Harian Lapangan','Bibit & Benih','Pupuk & Obat','Transportasi Lapangan','Lainnya']
+};
+let budgets = {};
+
+let currentType = 'kasbon';
+let currentSub = 'tani';
+let editingId = null;
+
+const $ = (id) => document.getElementById(id);
+
+function fmtRupiah(n){
+  const sign = n < 0 ? '-' : '';
+  return sign + 'Rp ' + Math.abs(Math.round(n)).toLocaleString('id-ID');
+}
+function fmtDateShort(iso){
+  const d = new Date(iso + 'T00:00:00');
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  return d.getDate() + ' ' + months[d.getMonth()] + "<br>'" + String(d.getFullYear()).slice(2);
+}
+function monthKey(iso){ return iso.slice(0,7); }
+
+function showToast(msg){
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(()=>t.classList.remove('show'), 2400);
+}
+
+async function loadData(){
+  try{
+    const raw = localStorage.getItem(STORE_ENTRIES);
+    entries = raw ? JSON.parse(raw) : [];
+  }catch(e){ entries = []; }
+  try{
+    const raw = localStorage.getItem(STORE_CATS);
+    if(raw){ categories = JSON.parse(raw); }
+  }catch(e){ /* pakai default */ }
+  try{
+    const raw = localStorage.getItem(STORE_BUDGETS);
+    budgets = raw ? JSON.parse(raw) : {};
+  }catch(e){ budgets = {}; }
+}
+async function saveEntries(){
+  try{ localStorage.setItem(STORE_ENTRIES, JSON.stringify(entries)); }
+  catch(e){ showToast('Gagal menyimpan data (penyimpanan browser penuh?)'); }
+}
+async function saveCategories(){
+  try{ localStorage.setItem(STORE_CATS, JSON.stringify(categories)); }
+  catch(e){ showToast('Gagal menyimpan kategori'); }
+}
+async function saveBudgets(){
+  try{ localStorage.setItem(STORE_BUDGETS, JSON.stringify(budgets)); }
+  catch(e){ showToast('Gagal menyimpan anggaran'); }
+}
+
+function catKeyFor(type, sub){
+  if(type === 'kasbon') return 'kasbon';
+  if(type === 'pengeluaran') return 'pengeluaran';
+  if(type === 'pemasukan') return sub === 'lahan' ? 'pemasukanLahan' : 'pemasukanTani';
+  if(type === 'laporanMitra') return 'laporanMitra';
+  return null;
+}
+
+function populateCategorySelect(){
+  const key = catKeyFor(currentType, currentSub);
+  if(!key){ return; }
+  const sel = $('fCat');
+  sel.innerHTML = '';
+  categories[key].forEach(c=>{
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    sel.appendChild(opt);
+  });
+}
+
+function updateFormChrome(){
+  $('subtypeToggle').classList.toggle('open', currentType === 'pemasukan');
+  const noCat = currentType === 'pembayaran' || currentType === 'kasbonMitra' || currentType === 'pengembalianMitra';
+  $('catBlock').style.display = noCat ? 'none' : 'block';
+
+  const isMitraType = ['kasbonMitra','laporanMitra','pengembalianMitra'].includes(currentType);
+  $('mitraNameBlock').style.display = isMitraType ? 'block' : 'none';
+
+  const isBlokType = currentType === 'pengeluaran' || currentType === 'pemasukan';
+  $('blokBlock').style.display = isBlokType ? 'block' : 'none';
+
+  const btn = $('submitBtn');
+  const colors = {
+    kasbon:'var(--kasbon)', pengeluaran:'var(--pengeluaran)',
+    pemasukan: currentSub==='lahan' ? 'var(--lahan)' : 'var(--tani)',
+    pembayaran:'var(--bayar)',
+    kasbonMitra:'var(--mitra)', laporanMitra:'var(--mitra)', pengembalianMitra:'var(--mitra)'
+  };
+  btn.style.background = colors[currentType];
+
+  const labels = {
+    kasbon:'Catat Kasbon Masuk',
+    pengeluaran:'Catat Pengeluaran',
+    pemasukan: currentSub==='lahan' ? 'Catat Penjualan Lahan' : 'Catat Hasil Pertanian',
+    pembayaran:'Catat Pembayaran Kasbon',
+    kasbonMitra:'Catat Kasbon ke Mitra',
+    laporanMitra:'Catat Laporan Pemakaian Mitra',
+    pengembalianMitra:'Catat Pengembalian Sisa Mitra'
+  };
+  btn.textContent = editingId ? 'Simpan Perubahan' : labels[currentType];
+
+  if(!noCat) populateCategorySelect();
+}
+
+function setActiveTypeButton(){
+  const allButtons = [...$('typeToggle').querySelectorAll('button'), ...$('mitraToggle').querySelectorAll('button')];
+  allButtons.forEach(b=>b.classList.toggle('active', b.dataset.type === currentType));
+  $('subtypeToggle').querySelectorAll('button').forEach(b=>b.classList.toggle('active', b.dataset.sub === currentSub));
+}
+
+function populateMonthFilter(){
+  const sel = $('filterMonth');
+  const prev = sel.value;
+  const months = Array.from(new Set(entries.map(e=>monthKey(e.date)))).sort().reverse();
+  sel.innerHTML = '<option value="semua">Semua bulan</option>';
+  const monthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  months.forEach(m=>{
+    const [y, mo] = m.split('-');
+    const opt = document.createElement('option');
+    opt.value = m;
+    opt.textContent = monthNames[parseInt(mo,10)-1] + ' ' + y;
+    sel.appendChild(opt);
+  });
+  if(months.includes(prev)) sel.value = prev;
+}
+
+function getMitraNames(){
+  return Array.from(new Set(entries.filter(e=>e.mitraName).map(e=>e.mitraName))).sort();
+}
+function getBlokNames(){
+  return Array.from(new Set(entries.filter(e=>e.blok).map(e=>e.blok))).sort();
+}
+
+function populateMitraOptions(){
+  const names = getMitraNames();
+  $('mitraNames').innerHTML = names.map(n=>`<option value="${escapeHtml(n)}">`).join('');
+  const sel = $('filterMitraName');
+  const prev = sel.value;
+  sel.innerHTML = '<option value="semua">Semua mitra</option>' + names.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+  if(names.includes(prev)) sel.value = prev;
+}
+function populateBlokOptions(){
+  const names = getBlokNames();
+  $('blokNames').innerHTML = names.map(n=>`<option value="${escapeHtml(n)}">`).join('');
+  const sel = $('filterBlok');
+  const prev = sel.value;
+  sel.innerHTML = '<option value="semua">Semua blok</option>' + names.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+  if(names.includes(prev)) sel.value = prev;
+}
+
+function signedAmount(e){
+  if(e.type === 'kasbon' || e.type === 'pemasukan' || e.type === 'pengembalianMitra') return e.amount;
+  if(e.type === 'laporanMitra') return 0;
+  return -e.amount;
+}
+
+function computeRunningKas(){
+  const sorted = [...entries].sort((a,b)=> a.date.localeCompare(b.date) || a.id - b.id);
+  let running = 0;
+  const map = {};
+  sorted.forEach(e=>{
+    running += signedAmount(e);
+    map[e.id] = running;
+  });
+  return map;
+}
+
+function renderBudgetList(){
+  const cats = categories.pengeluaran || [];
+  const list = $('budgetList');
+  if(cats.length === 0){ list.innerHTML = '<div class="empty-mini">Belum ada kategori pengeluaran.</div>'; return; }
+  list.innerHTML = cats.map(cat=>{
+    const realisasi = entries.filter(e=>e.type==='pengeluaran' && e.category===cat).reduce((s,e)=>s+e.amount,0);
+    const anggaran = budgets[cat] || 0;
+    const sisa = anggaran - realisasi;
+    const pct = anggaran > 0 ? Math.min(100, Math.round((realisasi/anggaran)*100)) : 0;
+    const over = anggaran > 0 && realisasi > anggaran;
+    const sisaText = anggaran > 0
+      ? (over ? `Melebihi anggaran ${fmtRupiah(Math.abs(sisa))}` : `Sisa anggaran ${fmtRupiah(sisa)}`)
+      : 'Anggaran belum diatur';
+    return `<div class="budget-row">
+      <div class="top">
+        <span class="cat-name">${escapeHtml(cat)}</span>
+        <span class="realisasi">${fmtRupiah(realisasi)}</span>
+      </div>
+      <div class="anggaran-line">
+        Anggaran:
+        <input type="number" class="budget-input" min="0" step="1" placeholder="0" value="${anggaran || ''}" data-cat="${escapeHtml(cat)}">
+        <span class="budget-input-print">${fmtRupiah(anggaran)}</span>
+      </div>
+      ${anggaran > 0 ? `<div class="budget-bar"><div class="budget-bar-fill ${over?'over':''}" style="width:${pct}%;"></div></div>` : ''}
+      <div class="sisa-text">${sisaText}</div>
+    </div>`;
+  }).join('');
+
+  list.querySelectorAll('.budget-input').forEach(inp=>{
+    inp.addEventListener('change', async ()=>{
+      const cat = inp.dataset.cat;
+      const val = parseFloat(inp.value) || 0;
+      budgets[cat] = val;
+      await saveBudgets();
+      renderBudgetList();
+      showToast('Anggaran "' + cat + '" diperbarui');
+    });
+  });
+}
+
+function renderBlokBreakdown(){
+  const bloks = getBlokNames();
+  const list = $('blokList');
+  const emptyEl = $('blokEmpty');
+  if(bloks.length === 0){ list.innerHTML = ''; emptyEl.style.display = 'block'; return; }
+  emptyEl.style.display = 'none';
+  list.innerHTML = bloks.map(blok=>{
+    const pengeluaran = entries.filter(e=>e.type==='pengeluaran' && e.blok===blok).reduce((s,e)=>s+e.amount,0);
+    const pemasukan = entries.filter(e=>e.type==='pemasukan' && e.blok===blok).reduce((s,e)=>s+e.amount,0);
+    const selisih = pemasukan - pengeluaran;
+    return `<div class="mitra-item">
+      <span class="name">${escapeHtml(blok)}</span>
+      <span class="figures">keluar ${fmtRupiah(pengeluaran)} · hasil ${fmtRupiah(pemasukan)} · <b>${selisih>=0?'+':''}${fmtRupiah(selisih)}</b></span>
+    </div>`;
+  }).join('');
+}
+
+function render(){
+  const totalKasbon = entries.filter(e=>e.type==='kasbon').reduce((s,e)=>s+e.amount,0);
+  const totalDibayar = entries.filter(e=>e.type==='pembayaran').reduce((s,e)=>s+e.amount,0);
+  const sisaKasbon = totalKasbon - totalDibayar;
+  const totalPengeluaran = entries.filter(e=>e.type==='pengeluaran').reduce((s,e)=>s+e.amount,0);
+  const totalKasbonMitra = entries.filter(e=>e.type==='kasbonMitra').reduce((s,e)=>s+e.amount,0);
+  const totalLaporanMitra = entries.filter(e=>e.type==='laporanMitra').reduce((s,e)=>s+e.amount,0);
+  const totalPengembalianMitra = entries.filter(e=>e.type==='pengembalianMitra').reduce((s,e)=>s+e.amount,0);
+  const totalPertanggungjawabanMitra = totalLaporanMitra + totalPengembalianMitra;
+  const sisaKasbonMitra = totalKasbonMitra - totalPertanggungjawabanMitra;
+  const totalTani = entries.filter(e=>e.type==='pemasukan' && e.sub==='tani').reduce((s,e)=>s+e.amount,0);
+  const totalLahan = entries.filter(e=>e.type==='pemasukan' && e.sub==='lahan').reduce((s,e)=>s+e.amount,0);
+  const saldoKas = totalKasbon + totalTani + totalLahan + totalPengembalianMitra - totalPengeluaran - totalDibayar - totalKasbonMitra;
+
+  $('totalKasbon').textContent = fmtRupiah(totalKasbon);
+  $('totalDibayar').textContent = fmtRupiah(totalDibayar);
+  $('sisaKasbon').textContent = fmtRupiah(sisaKasbon);
+  $('totalPengeluaran').textContent = fmtRupiah(totalPengeluaran);
+  $('totalKasbonMitra').textContent = fmtRupiah(totalKasbonMitra);
+  $('totalPertanggungjawabanMitra').textContent = fmtRupiah(totalPertanggungjawabanMitra);
+  $('sisaKasbonMitra').textContent = fmtRupiah(sisaKasbonMitra);
+  $('totalTani').textContent = fmtRupiah(totalTani);
+  $('totalLahan').textContent = fmtRupiah(totalLahan);
+  $('saldoKas').textContent = fmtRupiah(saldoKas);
+
+  const narasi = $('narasiKasbon');
+  if(totalKasbon === 0){
+    narasi.innerHTML = 'Belum ada kasbon tercatat dari pemilik lahan.';
+  } else {
+    const pct = totalKasbon > 0 ? Math.min(100, Math.round((totalDibayar/totalKasbon)*100)) : 0;
+    narasi.innerHTML = `Total kasbon yang diterima dari pemilik lahan adalah <b>${fmtRupiah(totalKasbon)}</b>. `
+      + `Sejauh ini telah dibayar kembali <b>${fmtRupiah(totalDibayar)}</b> (${pct}%) dari hasil panen dan penjualan lahan. `
+      + `Sisa kasbon yang masih menjadi kewajiban Bina Tani Nusantara kepada pemilik lahan adalah <b>${fmtRupiah(sisaKasbon)}</b>.`;
+  }
+
+  const narasiMitra = $('narasiMitra');
+  if(totalKasbonMitra === 0){
+    narasiMitra.innerHTML = 'Belum ada kasbon yang diberikan ke mitra lapangan.';
+  } else {
+    const pctM = totalKasbonMitra > 0 ? Math.min(100, Math.round((totalPertanggungjawabanMitra/totalKasbonMitra)*100)) : 0;
+    narasiMitra.innerHTML = `Total kasbon yang diberikan ke mitra lapangan adalah <b>${fmtRupiah(totalKasbonMitra)}</b>. `
+      + `Sejauh ini telah dipertanggungjawabkan (laporan pemakaian + pengembalian) sebesar <b>${fmtRupiah(totalPertanggungjawabanMitra)}</b> (${pctM}%). `
+      + `Sisa kasbon yang masih di tangan mitra dan belum dilaporkan adalah <b>${fmtRupiah(sisaKasbonMitra)}</b>.`;
+  }
+
+  renderBudgetList();
+  renderBlokBreakdown();
+
+  populateMonthFilter();
+  populateMitraOptions();
+  populateBlokOptions();
+  renderMitraBreakdown();
+
+  const runningMap = computeRunningKas();
+  const fMonth = $('filterMonth').value;
+  const fType = $('filterType').value;
+  const fMitra = $('filterMitraName').value;
+  const fBlok = $('filterBlok').value;
+  const q = $('searchInput').value.trim().toLowerCase();
+
+  let filtered = [...entries];
+  if(fMonth !== 'semua') filtered = filtered.filter(e=>monthKey(e.date)===fMonth);
+  if(fMitra !== 'semua') filtered = filtered.filter(e=>e.mitraName === fMitra);
+  if(fBlok !== 'semua') filtered = filtered.filter(e=>e.blok === fBlok);
+  if(fType !== 'semua'){
+    filtered = filtered.filter(e=>{
+      if(fType === 'pemasukan-tani') return e.type==='pemasukan' && e.sub==='tani';
+      if(fType === 'pemasukan-lahan') return e.type==='pemasukan' && e.sub==='lahan';
+      return e.type === fType;
+    });
+  }
+  if(q){
+    filtered = filtered.filter(e=>{
+      const hay = [e.note, e.category, e.mitraName, e.blok].filter(Boolean).join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  filtered.sort((a,b)=> b.date.localeCompare(a.date) || b.id - a.id);
+
+  const body = $('ledgerBody');
+  body.innerHTML = '';
+
+  if(filtered.length === 0){
+    body.innerHTML = `<div class="empty-state">
+      <div class="glyph">🌾</div>
+      <p>Belum ada transaksi yang cocok.<br>Coba ubah filter atau catat transaksi baru.</p>
+    </div>`;
+    return;
+  }
+
+  const badgeInfo = {
+    kasbon: {cls:'kasbon', label:'Kasbon Masuk'},
+    pengeluaran: {cls:'pengeluaran', label:'Pengeluaran'},
+    pembayaran: {cls:'pembayaran', label:'Bayar Kasbon'},
+    kasbonMitra: {cls:'mitra', label:'Kasbon ke Mitra'},
+    laporanMitra: {cls:'mitra', label:'Laporan Mitra'},
+    pengembalianMitra: {cls:'mitra', label:'Kembali dari Mitra'},
+  };
+
+  filtered.forEach(e=>{
+    let info;
+    if(e.type === 'pemasukan'){
+      info = e.sub === 'lahan' ? {cls:'lahan', label:'Penjualan Lahan'} : {cls:'tani', label:'Hasil Pertanian'};
+    } else {
+      info = badgeInfo[e.type];
+    }
+    const amt = signedAmount(e);
+    const row = document.createElement('div');
+    row.className = 'ledger-row';
+    row.dataset.id = e.id;
+    row.innerHTML = `
+      <div class="date">${fmtDateShort(e.date)}</div>
+      <div class="mid">
+        <span class="badge ${info.cls}">${info.label}</span>
+        ${e.blok ? `<span class="badge blok">${escapeHtml(e.blok)}</span>` : ''}
+        <div class="note">${e.mitraName ? `<b>${escapeHtml(e.mitraName)}</b> — ` : ''}${escapeHtml(e.note)}</div>
+        ${e.category ? `<div class="cat">${escapeHtml(e.category)}</div>` : ''}
+      </div>
+      <div class="right">
+        <div class="amt ${amt>=0?'plus':'minus'}">${amt>=0?'+':'-'} ${fmtRupiah(Math.abs(amt))}</div>
+        <div class="saldo">kas ${fmtRupiah(runningMap[e.id])}</div>
+        <button class="del no-print" data-id="${e.id}">hapus</button>
+      </div>
+    `;
+    body.appendChild(row);
+  });
+
+  body.querySelectorAll('.ledger-row').forEach(row=>{
+    row.addEventListener('click', (ev)=>{
+      if(ev.target.classList.contains('del')) return;
+      startEdit(Number(row.dataset.id));
+    });
+  });
+  body.querySelectorAll('.del').forEach(btn=>{
+    btn.addEventListener('click', async (ev)=>{
+      ev.stopPropagation();
+      const id = Number(btn.dataset.id);
+      entries = entries.filter(e=>e.id !== id);
+      if(editingId === id) cancelEdit();
+      await saveEntries();
+      render();
+      showToast('Transaksi dihapus');
+    });
+  });
+}
+
+function renderMitraBreakdown(){
+  const names = getMitraNames();
+  const list = $('mitraList');
+  if(names.length === 0){ list.innerHTML = ''; return; }
+  list.innerHTML = names.map(name=>{
+    const diberikan = entries.filter(e=>e.type==='kasbonMitra' && e.mitraName===name).reduce((s,e)=>s+e.amount,0);
+    const laporan = entries.filter(e=>e.type==='laporanMitra' && e.mitraName===name).reduce((s,e)=>s+e.amount,0);
+    const kembali = entries.filter(e=>e.type==='pengembalianMitra' && e.mitraName===name).reduce((s,e)=>s+e.amount,0);
+    const sisa = diberikan - laporan - kembali;
+    return `<div class="mitra-item">
+      <span class="name">${escapeHtml(name)}</span>
+      <span class="figures">diberikan ${fmtRupiah(diberikan)} · sisa <b>${fmtRupiah(sisa)}</b></span>
+    </div>`;
+  }).join('');
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function setupTypeToggle(){
+  const allButtons = () => [
+    ...$('typeToggle').querySelectorAll('button'),
+    ...$('mitraToggle').querySelectorAll('button')
+  ];
+  allButtons().forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      allButtons().forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      currentType = btn.dataset.type;
+      updateFormChrome();
+    });
+  });
+}
+function setupSubtypeToggle(){
+  $('subtypeToggle').querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      $('subtypeToggle').querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      currentSub = btn.dataset.sub;
+      updateFormChrome();
+    });
+  });
+}
+
+function setupNewCategory(){
+  $('btnNewCat').addEventListener('click', ()=>{
+    $('newCatBox').classList.toggle('open');
+    $('newCatInput').focus();
+  });
+  $('saveCatBtn').addEventListener('click', async ()=>{
+    const name = $('newCatInput').value.trim();
+    if(!name) return;
+    const key = catKeyFor(currentType, currentSub);
+    if(key && !categories[key].includes(name)){
+      categories[key].push(name);
+      await saveCategories();
+      populateCategorySelect();
+      $('fCat').value = name;
+      showToast('Kategori "' + name + '" ditambahkan');
+    }
+    $('newCatInput').value = '';
+    $('newCatBox').classList.remove('open');
+  });
+  $('newCatInput').addEventListener('keydown', (ev)=>{
+    if(ev.key === 'Enter'){ ev.preventDefault(); $('saveCatBtn').click(); }
+  });
+}
+
+function resetFormFields(){
+  $('fDate').value = new Date().toISOString().slice(0,10);
+  $('fAmount').value = '';
+  $('fNote').value = '';
+  $('fMitraName').value = '';
+  $('fBlok').value = '';
+}
+
+function startEdit(id){
+  const entry = entries.find(e=>e.id === id);
+  if(!entry) return;
+  editingId = id;
+  currentType = entry.type;
+  currentSub = entry.sub || 'tani';
+  setActiveTypeButton();
+  updateFormChrome();
+  $('fDate').value = entry.date;
+  $('fAmount').value = entry.amount;
+  $('fNote').value = entry.note === '(tanpa keterangan)' ? '' : entry.note;
+  $('fMitraName').value = entry.mitraName || '';
+  $('fBlok').value = entry.blok || '';
+  if(entry.category){ $('fCat').value = entry.category; }
+  $('editBanner').classList.add('open');
+  $('formCard').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function cancelEdit(){
+  editingId = null;
+  $('editBanner').classList.remove('open');
+  currentType = 'kasbon';
+  currentSub = 'tani';
+  setActiveTypeButton();
+  updateFormChrome();
+  resetFormFields();
+}
+
+function setupForm(){
+  $('fDate').value = new Date().toISOString().slice(0,10);
+  $('cancelEditBtn').addEventListener('click', cancelEdit);
+
+  $('entryForm').addEventListener('submit', async (ev)=>{
+    ev.preventDefault();
+    const amount = parseFloat($('fAmount').value);
+    if(!amount || amount <= 0){ showToast('Jumlah harus lebih dari 0'); return; }
+    const isMitraType = ['kasbonMitra','laporanMitra','pengembalianMitra'].includes(currentType);
+    const isBlokType = currentType === 'pengeluaran' || currentType === 'pemasukan';
+    const mitraName = $('fMitraName').value.trim();
+    if(isMitraType && !mitraName){ showToast('Nama mitra wajib diisi'); return; }
+
+    const data = {
+      type: currentType,
+      sub: currentType === 'pemasukan' ? currentSub : null,
+      date: $('fDate').value,
+      category: currentType === 'pembayaran' ? null : $('fCat').value,
+      mitraName: isMitraType ? mitraName : null,
+      blok: isBlokType ? ($('fBlok').value.trim() || null) : null,
+      note: $('fNote').value.trim() || '(tanpa keterangan)',
+      amount: amount
+    };
+
+    if(editingId){
+      const idx = entries.findIndex(e=>e.id === editingId);
+      if(idx > -1){ entries[idx] = {...entries[idx], ...data}; }
+      showToast('Transaksi diperbarui');
+      editingId = null;
+      $('editBanner').classList.remove('open');
+    } else {
+      entries.push({id: Date.now(), ...data});
+      showToast('Transaksi tersimpan');
+    }
+
+    await saveEntries();
+    render();
+    resetFormFields();
+    currentType = 'kasbon'; currentSub = 'tani';
+    setActiveTypeButton();
+    updateFormChrome();
+  });
+}
+
+function setupFilters(){
+  $('filterMonth').addEventListener('change', render);
+  $('filterType').addEventListener('change', render);
+  $('filterMitraName').addEventListener('change', render);
+  $('filterBlok').addEventListener('change', render);
+  $('searchInput').addEventListener('input', render);
+}
+
+function setupBackup(){
+  $('btnPrint').addEventListener('click', ()=>{
+    $('printDate').textContent = new Date().toLocaleString('id-ID');
+    window.print();
+  });
+  $('btnExport').addEventListener('click', ()=>{
+    const payload = {entries, categories, budgets, exportedAt: new Date().toISOString()};
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'cadangan-bina-tani-' + new Date().toISOString().slice(0,10) + '.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    showToast('Cadangan diunduh');
+  });
+  $('importFile').addEventListener('change', (ev)=>{
+    const file = ev.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = async ()=>{
+      try{
+        const data = JSON.parse(reader.result);
+        if(!Array.isArray(data.entries)) throw new Error('format tidak valid');
+        if(!confirm('Ini akan mengganti seluruh data saat ini dengan isi file cadangan. Lanjutkan?')) return;
+        entries = data.entries || [];
+        categories = data.categories || categories;
+        budgets = data.budgets || {};
+        await saveEntries();
+        await saveCategories();
+        await saveBudgets();
+        render();
+        showToast('Data berhasil dipulihkan');
+      }catch(e){
+        showToast('Gagal membaca file cadangan');
+      }
+    };
+    reader.readAsText(file);
+    ev.target.value = '';
+  });
+}
+
+async function init(){
+  await loadData();
+  updateFormChrome();
+  setupTypeToggle();
+  setupSubtypeToggle();
+  setupNewCategory();
+  setupForm();
+  setupFilters();
+  setupBackup();
+  render();
+}
+
+init();
+</script>
+</body>
+</html>
